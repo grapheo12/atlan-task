@@ -1,5 +1,5 @@
 #Taken from https://runnable.com/docker/python/dockerize-your-flask-application
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 MAINTAINER Shubham Mishra "donofsuri@gmail.com"
 
