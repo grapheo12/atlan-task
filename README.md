@@ -1,7 +1,5 @@
 # Atlan Backend Internship Task
 
-- TODO: Build REST APIs for given usecase
-
 - TODO: Dockerize
 
 Please run `run_tests.py` to get an interactive shell for testing.

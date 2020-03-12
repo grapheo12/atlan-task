@@ -19,12 +19,18 @@ class RefObj:
     RUN: Run normally with args taken from ref.args
     TERM: Instantly terminate execution
     """
-    def __init__(self, f, opobj):
+    #Abstract attributes to be overridden.
+    manager = None
+    function = None 
+    opClass = None
+
+    def __init__(self, name, *args):
         self._status = "PAUSE"
-        self.output = opobj
-        self.args = None
-        self.function = f
-        self.thread = None
+        self.output = self.opClass()
+        self.args = args
+        self.thread = threading.Thread(target=self.function, 
+                                        args=(self,))
+        self.manager.refs[name] = self
 
     @property
     def status(self):
@@ -38,11 +44,6 @@ class RefObj:
     @status.setter
     def status(self, newStatus):
         raise Exception
-
-    def create(self, *args):
-        self.args = args
-        self.thread = threading.Thread(target=self.function, 
-                                        args=tuple([self]))
 
     def start(self):
         self._status = "RUN"
@@ -73,18 +74,20 @@ class ThreadManager:
     For example see ../tests/threadManagerTest.py
     """
     def __init__(self):
-        self.refs = list()
+        self.refs = dict()
 
     def __del__(self):
         for ref in self.refs:
             ref.terminate()
 
     def pausableTask(self, opClass):
-        opobj = opClass()
-
         def wrapper(f):
-            ref = RefObj(f, opobj)
-            self.refs.append(ref)
-            return ref
+            return type(f.__name__,
+            (RefObj,),
+            {
+                "function": f,
+                "opClass": opClass,
+                "manager": self
+            })
             
         return wrapper

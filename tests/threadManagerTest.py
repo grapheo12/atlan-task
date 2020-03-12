@@ -15,8 +15,8 @@ def count(ref):
             break
 
 def test():
-    count.create(2)
-    count.start()
+    c = count(2)
+    c.start()
 
     while True:
         x = input(">>> ")
