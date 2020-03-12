@@ -5,10 +5,10 @@ MAINTAINER Shubham Mishra "donofsuri@gmail.com"
 
 RUN touch /etc/apt/apt.conf.d/proxy.conf
 
-#RUN echo 'Acquire {\
-#    HTTP::proxy "http://172.16.2.30:8080";\
-#    HTTPS::proxy "http://172.16.2.30:8080";\
-#    }' > /etc/apt/apt.conf.d/proxy.conf
+RUN echo 'Acquire {\
+    HTTP::proxy "http://172.16.2.30:8080";\
+    HTTPS::proxy "http://172.16.2.30:8080";\
+    }' > /etc/apt/apt.conf.d/proxy.conf
 
 RUN apt-get update -y && \
     apt-get install -y python3-pip python-dev
